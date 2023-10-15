@@ -1,24 +1,47 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import path from 'path';
+
+import { getPostsData } from '../utils/posts';
+import Link from 'next/link';
+
+// Fetch post data
+const postsDirectory = path.join(process.cwd(), 'posts');
 
 export default function Home() {
+  const postsData = getPostsData();
+  
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>My Custom Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to my <a href="https://nextjs.org">Next.js Blog!</a>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
+          Get started by selecting one of the posts below.
         </p>
 
-        <div className={styles.grid}>
+        <div className={styles.container}>
+          <div className={styles.grid}>
+            {postsData.map((post) => (
+                <div className={styles.card} key={post.id}>
+                  <h2>{post.title}</h2>
+                  <p>{post.description}</p>
+                  <Link href={`/blog/${post.id}`}>
+                    <a>Read More</a>
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h3>Documentation &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
@@ -46,7 +69,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div> */}
       </main>
 
       <footer>
